@@ -1,10 +1,13 @@
 Due Dates & Reminders
 =====================
-due_at field: ISO 8601 datetime, optional, nullable
+due_at: ISO 8601 datetime, optional, nullable
 
-API changes:
-  - POST /tasks and PATCH /tasks/:id accept "due_at"
-  - GET /tasks supports:
-      ?overdue=true     tasks where due_at < now and status != done
-      ?due_before=<ts>  tasks due before the given timestamp
-      ?due_after=<ts>   tasks due after the given timestamp
+Filters: overdue=true, due_before, due_after
+
+Reminders:
+  - Reminders are set per-task per-user: POST /tasks/:id/reminders
+    Request:  { "remind_at": "<iso8601>" }
+    Response: 201 { "id": "...", "remind_at": "...", "task_id": "..." }
+  - GET  /tasks/:id/reminders   — list reminders for the task (own only)
+  - DELETE /tasks/:id/reminders/:rid
+  - remind_at must be in the future; 422 otherwise
