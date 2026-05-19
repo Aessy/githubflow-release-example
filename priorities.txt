@@ -1,13 +1,10 @@
 Task Priorities
 ===============
 Priority field: critical | high | normal | low  (default: normal)
+Bulk update: PATCH /tasks/bulk-priority  { ids, priority }
 
-Sorting:  ?sort=priority  (combinable with secondary sort)
-SLA targets: critical 4h, high 24h, normal 24h, low best-effort
-
-Bulk priority update:
-  PATCH /tasks/bulk-priority
-  Request:  { "ids": ["uuid1", "uuid2"], "priority": "high" }
-  Response: 200 { "updated": 2, "skipped": 0 }
-  - Only updates tasks the caller owns (or all if admin)
-  - Tasks not found or not owned are silently skipped (counted in "skipped")
+Priority escalation rules:
+  - A task not updated within its SLA window is automatically escalated one level
+  - Escalations are logged as an audit event on the task
+  - Escalation can be disabled per-task: PATCH /tasks/:id  { "auto_escalate": false }
+  - Admins receive a daily digest of all escalated tasks
