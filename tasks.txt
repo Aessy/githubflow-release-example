@@ -1,12 +1,19 @@
 Task Management
 ===============
 Task model:
-  - id           (UUID, auto-generated)
-  - title        (string, required, 1–200 chars)
-  - description  (string, optional, max 2000 chars)
-  - status       (enum: open | in_progress | done | cancelled)
-  - owner_id     (UUID, set to authenticated user)
-  - created_at   (timestamp, auto-set)
-  - updated_at   (timestamp, updated on every write)
+  - id, title (1-200), description (opt, 2000), status, owner_id, created_at, updated_at
 
-Validation errors return 422 with a field-level error map.
+Create task  POST /tasks
+  Auth:      Bearer token required
+  Request:   { "title": "...", "description": "..." }
+  Response:  201  { "id": "...", "title": "...", "status": "open", ... }
+  Errors:    401 unauthenticated, 422 validation failure
+
+Update task  PATCH /tasks/:id
+  Request:   any subset of { title, description, status }
+  Response:  200  updated task object
+  Errors:    401, 403 not owner, 404 not found, 422 validation
+
+Delete task  DELETE /tasks/:id
+  Response:  204 No Content
+  Errors:    401, 403, 404
