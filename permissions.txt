@@ -1,12 +1,15 @@
 User Permissions and Teams
 ==========================
-[WIP] Role-based access control.
+Team model:
+  - id, name (unique), owner_id, created_at
+  - members: array of { user_id, role: member | editor | manager }
 
-Current roles (v1.0-v1.2):
-  user   - default, owns and manages own tasks
-  admin  - unrestricted access to all resources
-
-Planned for v1.3:
-  - Team model (group of users)
-  - Task sharing within a team
-  - Per-team role: member | editor | manager
+Endpoints:
+  POST   /teams                    Create team
+  GET    /teams                    List teams the caller belongs to
+  GET    /teams/:id                Team details and member list
+  PATCH  /teams/:id                Update name (manager or owner)
+  DELETE /teams/:id                Delete team (owner only)
+  POST   /teams/:id/members        Invite user { "user_id": "...", "role": "member" }
+  PATCH  /teams/:id/members/:uid   Change role
+  DELETE /teams/:id/members/:uid   Remove member (manager+ or self)
