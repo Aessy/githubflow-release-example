@@ -5,10 +5,10 @@ Filters: overdue=true, due_before, due_after
 
 Reminders:
   POST/GET/DELETE  /tasks/:id/reminders[/:rid]
-  remind_at must be in the future
+  Delivery: webhook (3x retry) → fallback to in-app GET /users/me/reminders
 
-Delivery:
-  - Reminders delivered via webhook if configured (see webhooks.txt)
-  - Fallback: stored in GET /users/me/reminders?unread=true
-  - Reminder marked as delivered once webhook returns 2xx or user reads it
-  - Failed webhook deliveries retried 3x with exponential backoff
+Recurring reminders:
+  - "recurrence" field accepts cron expression (max every 1h)
+    e.g. { "remind_at": "2024-06-01T09:00:00Z", "recurrence": "0 9 * * 1-5" }
+  - Recurrence stops when task moves to done or cancelled
+  - Maximum 5 active reminders per task per user
