@@ -5,10 +5,12 @@ Task model:
 
 Endpoints:
   POST   /tasks        Create task (auth required)
-  PATCH  /tasks/:id    Update task (owner only)
-  DELETE /tasks/:id    Delete task (owner only)
+  PATCH  /tasks/:id    Update task (owner or admin)
+  DELETE /tasks/:id    Delete task (owner or admin)
+  GET    /tasks/:id    Fetch single task (any authenticated user)
 
-Ownership rules:
-  - owner_id is locked to the JWT sub claim at creation time
-  - Attempting to modify or delete another user's task returns 403
-  - Admins (role=admin in JWT) may operate on any task
+Status transitions (enforced server-side):
+  open  →  in_progress  →  done
+  open  →  cancelled
+  in_progress  →  cancelled
+  Attempts to move backwards return 422 with reason "invalid_transition".
