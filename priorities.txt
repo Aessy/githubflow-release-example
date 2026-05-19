@@ -1,7 +1,10 @@
 Task Priorities
 ===============
-[WIP] Adding priority levels to tasks.
+Priority field added to task model:
+  - priority  enum: critical | high | normal | low  (default: normal)
 
-Proposed priority enum:
-  critical | high | normal | low
-  Default: normal
+API changes:
+  - POST /tasks accepts optional "priority" field
+  - PATCH /tasks/:id accepts "priority" in update body
+  - GET /tasks supports ?priority=high filter (repeatable for multiple values)
+  - Task response object now includes "priority" field
