@@ -1,20 +1,17 @@
-Task Listing
-============
+Task Listing & Search
+=====================
 GET /tasks
   Auth:    Bearer token required
-  Returns: paginated array of tasks for the authenticated user
+  Returns: paginated, filtered, sorted task list
 
 Query parameters:
-  page      int     Page number, 1-based (default: 1)
-  per_page  int     Results per page, max 100 (default: 20)
-  status    string  Filter by status (open|in_progress|done|cancelled)
-  sort      string  Field to sort by: created_at|updated_at|title (default: created_at)
-  order     string  asc|desc (default: desc)
+  page, per_page (max 100), status, sort, order
+  q         string  Full-text search across title and description
 
 Response:
-  {
-    "data":  [ ...task objects... ],
-    "total": 142,
-    "page":  1,
-    "pages": 8
-  }
+  { "data": [...], "total": N, "page": N, "pages": N }
+
+Search behaviour:
+  - Case-insensitive substring match on title and description
+  - Results ranked by relevance when q is supplied (sort param ignored)
+  - Empty q is equivalent to omitting the parameter
