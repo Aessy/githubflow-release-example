@@ -2,12 +2,14 @@ Taskr
 =====
 Taskr is a lightweight task-management API.
 
-Features in this version:
-  - User accounts with secure login (JWT, 1h expiry, refresh + logout)
-  - Rate-limited login to prevent brute force
-  - Task creation, update, delete with ownership enforcement
-  - Status lifecycle: open → in_progress → done / cancelled
+Features in v1.1.0.0:
+  - Secure login with JWT (1h expiry, refresh, logout, rate-limiting) [v1.0]
+  - Task CRUD with ownership, status lifecycle [v1.0]
+  - Task listing with pagination, filtering, full-text search, cursor paging
+  - Comment threads on tasks with soft-delete, 15-min edit window
+  - @mention notifications in comments, emoji reactions
+  - RFC 5988 Link headers on paginated responses
 
-See auth.txt and tasks.txt for endpoint documentation.
+See individual feature files for full endpoint documentation.
 
-Version: 1.0.0.0
+Version: 1.1.0.0
