@@ -1,12 +1,12 @@
 User Permissions and Teams
 ==========================
-Team model: id, name, owner_id, members[{user_id, role}], created_at
-Endpoints:  POST/GET/PATCH/DELETE /teams[/:id]
-            POST/PATCH/DELETE /teams/:id/members[/:uid]
+Team model: id, name, owner_id, members[{user_id, role}]
+Task sharing: optional team_id; visibility and edit rights governed by role
 
-Task sharing:
-  - POST /tasks accepts optional "team_id" to share with a team
-  - Team tasks are visible to all team members (read)
-  - editors and managers may update shared tasks
-  - Only task owner or team manager may delete a shared task
-  - A task may belong to at most one team
+Permission matrix:
+              | read | update | delete | change-priority | manage-members
+  member      |  Y   |   -    |   -    |       -         |      -
+  editor      |  Y   |   Y    |   -    |       Y         |      -
+  manager     |  Y   |   Y    |   Y    |       Y         |      Y
+  task owner  |  Y   |   Y    |   Y    |       Y         |      -
+  admin       |  Y   |   Y    |   Y    |       Y         |      Y
