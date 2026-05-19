@@ -1,0 +1,12 @@
+User Permissions and Teams
+==========================
+[WIP] Role-based access control.
+
+Current roles (v1.0-v1.2):
+  user   - default, owns and manages own tasks
+  admin  - unrestricted access to all resources
+
+Planned for v1.3:
+  - Team model (group of users)
+  - Task sharing within a team
+  - Per-team role: member | editor | manager
