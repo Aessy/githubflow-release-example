@@ -1,0 +1,10 @@
+Task Comments
+=============
+[WIP] Adding comment threads to tasks.
+
+Comment model (initial):
+  - id          (UUID)
+  - task_id     (UUID, FK to tasks)
+  - author_id   (UUID, FK to users)
+  - body        (string)
+  - created_at  (timestamp)
