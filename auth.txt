@@ -1,16 +1,20 @@
 Authentication
 ==============
 User model:
-  - id, email, password (bcrypt), created_at
+  - id, email, password (bcrypt cost 12), created_at
 
-Login endpoint  POST /auth/login
-  Request:   { "email": "...", "password": "..." }
-  Response:  { "token": "<jwt>", "expires_at": "<iso8601>" }
-  Errors:    401 bad credentials, 422 missing fields
+Endpoints:
+  POST /auth/login    — returns signed JWT (1h expiry)
+  POST /auth/refresh  — issues new token, invalidates old
+  POST /auth/logout   — adds token to deny-list
 
-Token behaviour:
-  - Expiry:    1 hour from issuance
-  - Refresh:   POST /auth/refresh  { "token": "..." }
-               Returns new token; old token is immediately invalidated
-  - Logout:    POST /auth/logout   { "token": "..." }
-               Token added to deny-list until original expiry passes
+Rate limiting:
+  - Login attempts capped at 10 per IP per minute
+  - Excess requests receive 429 Too Many Requests
+  - Counter resets on successful login
+
+Error codes:
+  400  malformed request body
+  401  invalid credentials or expired token
+  422  missing required fields
+  429  rate limit exceeded
