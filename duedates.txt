@@ -1,13 +1,14 @@
 Due Dates & Reminders
 =====================
 due_at: ISO 8601 datetime, optional, nullable
-
 Filters: overdue=true, due_before, due_after
 
 Reminders:
-  - Reminders are set per-task per-user: POST /tasks/:id/reminders
-    Request:  { "remind_at": "<iso8601>" }
-    Response: 201 { "id": "...", "remind_at": "...", "task_id": "..." }
-  - GET  /tasks/:id/reminders   — list reminders for the task (own only)
-  - DELETE /tasks/:id/reminders/:rid
-  - remind_at must be in the future; 422 otherwise
+  POST/GET/DELETE  /tasks/:id/reminders[/:rid]
+  remind_at must be in the future
+
+Delivery:
+  - Reminders delivered via webhook if configured (see webhooks.txt)
+  - Fallback: stored in GET /users/me/reminders?unread=true
+  - Reminder marked as delivered once webhook returns 2xx or user reads it
+  - Failed webhook deliveries retried 3x with exponential backoff
