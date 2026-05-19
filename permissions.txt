@@ -1,15 +1,12 @@
 User Permissions and Teams
 ==========================
-Team model:
-  - id, name (unique), owner_id, created_at
-  - members: array of { user_id, role: member | editor | manager }
+Team model: id, name, owner_id, members[{user_id, role}], created_at
+Endpoints:  POST/GET/PATCH/DELETE /teams[/:id]
+            POST/PATCH/DELETE /teams/:id/members[/:uid]
 
-Endpoints:
-  POST   /teams                    Create team
-  GET    /teams                    List teams the caller belongs to
-  GET    /teams/:id                Team details and member list
-  PATCH  /teams/:id                Update name (manager or owner)
-  DELETE /teams/:id                Delete team (owner only)
-  POST   /teams/:id/members        Invite user { "user_id": "...", "role": "member" }
-  PATCH  /teams/:id/members/:uid   Change role
-  DELETE /teams/:id/members/:uid   Remove member (manager+ or self)
+Task sharing:
+  - POST /tasks accepts optional "team_id" to share with a team
+  - Team tasks are visible to all team members (read)
+  - editors and managers may update shared tasks
+  - Only task owner or team manager may delete a shared task
+  - A task may belong to at most one team
