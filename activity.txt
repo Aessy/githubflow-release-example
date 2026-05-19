@@ -1,8 +1,15 @@
 Activity Feed
 =============
-[WIP] Per-user activity feed aggregating task and team events.
+GET /users/me/activity
+  Returns reverse-chronological events the caller was involved in.
 
-Planned endpoint:
-  GET /users/me/activity
-  Returns a reverse-chronological list of events the caller was involved in:
-  tasks they own or are a team member of, comments they wrote or were mentioned in.
+Event types surfaced in feed:
+  task.created      task.updated     task.status_changed
+  comment.created   mention.received reminder.triggered
+  team.joined       team.role_changed
+
+Query params:
+  types     Comma-separated list of event types to include
+  since     ISO 8601 — only events after this timestamp
+  per_page  Max 50 (default 20)
+  cursor    For cursor-based pagination
