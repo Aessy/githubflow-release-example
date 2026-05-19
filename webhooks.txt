@@ -1,18 +1,20 @@
 Webhooks
 ========
-Webhook model:
-  - id, owner_id, url (https only), events[], secret, created_at, active (bool)
+Webhook model: id, owner_id, url (https), events[], secret, created_at, active
 
-Endpoints:
-  POST   /webhooks          Register a webhook
-  GET    /webhooks          List own webhooks
-  GET    /webhooks/:id      Get webhook details
-  PATCH  /webhooks/:id      Update url, events, active flag
-  DELETE /webhooks/:id      Remove webhook
+CRUD: POST/GET/PATCH/DELETE /webhooks[/:id]
 
-Request body (POST):
-  { "url": "https://...", "events": ["task.created", "task.updated"], "secret": "..." }
+Supported events: task.created, task.updated, task.deleted,
+                  comment.created, reminder.triggered
 
-Supported events:
-  task.created  task.updated  task.deleted
-  comment.created  reminder.triggered
+Payload format:
+  {
+    "event":      "task.updated",
+    "timestamp":  "2024-06-01T10:00:00Z",
+    "data":       { ...full resource object... }
+  }
+
+Security:
+  - Each delivery includes header X-Taskr-Signature: sha256=<hmac>
+  - HMAC computed over raw body with the webhook secret
+  - Receivers should verify signature before processing
