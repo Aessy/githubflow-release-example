@@ -7,9 +7,13 @@ GET /tasks
 Query parameters:
   page, per_page (max 100), status, sort, order
   q         Full-text search across title and description
-  assignee  UUID  Filter by assigned user (admin only for other users)
+  assignee  UUID  Filter by user (admin only for other users)
 
-Search behaviour:
-  - Case-insensitive substring match on title and description
-  - Results ranked by relevance when q is supplied
-  - Assignee filter returns 403 if non-admin requests another user's tasks
+Response headers:
+  X-Total-Count   total matching records
+  X-Page-Count    total pages
+  Link            RFC 5988 next/prev/first/last rel links
+
+Cursor-based pagination (preferred for large sets):
+  Use cursor=<opaque_token> instead of page; returns next_cursor in body.
+  cursor and page params are mutually exclusive — 400 if both supplied.
