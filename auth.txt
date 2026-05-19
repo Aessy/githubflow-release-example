@@ -1,14 +1,16 @@
 Authentication
 ==============
 User model:
-  - id          (UUID)
-  - email       (string, unique, validated)
-  - password    (bcrypt hash, cost 12)
-  - created_at  (timestamp)
+  - id, email, password (bcrypt), created_at
 
 Login endpoint  POST /auth/login
   Request:   { "email": "...", "password": "..." }
   Response:  { "token": "<jwt>", "expires_at": "<iso8601>" }
-  Errors:    401 on bad credentials, 422 on missing fields
+  Errors:    401 bad credentials, 422 missing fields
 
-Token format: JWT, signed with HS256, payload { sub, iat, exp }
+Token behaviour:
+  - Expiry:    1 hour from issuance
+  - Refresh:   POST /auth/refresh  { "token": "..." }
+               Returns new token; old token is immediately invalidated
+  - Logout:    POST /auth/logout   { "token": "..." }
+               Token added to deny-list until original expiry passes
