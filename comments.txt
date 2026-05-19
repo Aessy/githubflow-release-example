@@ -1,11 +1,18 @@
 Task Comments
 =============
 Comment model:
-  - id, task_id, author_id, body (1-5000 chars), created_at, updated_at
-  - deleted_at (soft-delete; body replaced with "[deleted]" on read)
+  - id, task_id, author_id, body (1-5000), created_at, updated_at, deleted_at
 
 Endpoints:
-  POST   /tasks/:id/comments         Add comment (auth required, any user)
-  GET    /tasks/:id/comments         List comments (paginated, auth required)
-  PATCH  /tasks/:id/comments/:cid    Edit comment (author only, within 15 min)
-  DELETE /tasks/:id/comments/:cid    Soft-delete comment (author or admin)
+  POST   /tasks/:id/comments
+  GET    /tasks/:id/comments         Paginated, sorted oldest-first
+  PATCH  /tasks/:id/comments/:cid    Editable within 15 min of posting
+  DELETE /tasks/:id/comments/:cid    Soft-delete (author or admin)
+
+Mentions:
+  - @username syntax in body triggers a notification to the mentioned user
+  - Mentions are resolved at write time; invalid usernames silently ignored
+  - Maximum 10 mentions per comment
+
+Markdown rendering:
+  - Body stored as raw text; clients receive both raw and rendered_html fields
