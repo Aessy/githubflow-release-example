@@ -1,0 +1,9 @@
+Authentication
+==============
+[WIP] Scaffolding user model.
+
+User fields:
+  - id          (UUID, generated on creation)
+  - email       (string, unique)
+  - password    (string, will be hashed)
+  - created_at  (timestamp)
