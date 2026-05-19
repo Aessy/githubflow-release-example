@@ -6,12 +6,10 @@ GET /tasks
 
 Query parameters:
   page, per_page (max 100), status, sort, order
-  q         string  Full-text search across title and description
-
-Response:
-  { "data": [...], "total": N, "page": N, "pages": N }
+  q         Full-text search across title and description
+  assignee  UUID  Filter by assigned user (admin only for other users)
 
 Search behaviour:
   - Case-insensitive substring match on title and description
-  - Results ranked by relevance when q is supplied (sort param ignored)
-  - Empty q is equivalent to omitting the parameter
+  - Results ranked by relevance when q is supplied
+  - Assignee filter returns 403 if non-admin requests another user's tasks
