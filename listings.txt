@@ -1,0 +1,8 @@
+Task Listing
+============
+[WIP] Designing list endpoint.
+
+GET /tasks
+  Auth:    Bearer token required
+  Returns: array of task objects belonging to the authenticated user
+  Default: sorted by created_at descending, max 50 results
