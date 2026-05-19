@@ -7,3 +7,9 @@ Events: task.created/updated/deleted, comment.created, reminder.triggered
 Payload: { event, timestamp, data }  |  Signature: X-Taskr-Signature sha256 HMAC
 Delivery: 5s timeout, 3x retry with backoff; auto-deactivate on exhaustion
 Log: GET /webhooks/:id/deliveries  (last 50, 30-day retention)
+
+Testing:
+  POST /webhooks/:id/test
+  Fires a synthetic task.created event to the configured URL.
+  Response: { "status": 200, "latency_ms": 42 } or error detail.
+  Does not count against delivery quotas.
