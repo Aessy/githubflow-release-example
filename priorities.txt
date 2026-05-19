@@ -1,0 +1,7 @@
+Task Priorities
+===============
+[WIP] Adding priority levels to tasks.
+
+Proposed priority enum:
+  critical | high | normal | low
+  Default: normal
