@@ -1,12 +1,14 @@
 Authentication
 ==============
 User model:
-  - id          (UUID, generated on creation)
+  - id          (UUID)
   - email       (string, unique, validated)
-  - password    (bcrypt hash, min 8 chars enforced)
+  - password    (bcrypt hash, cost 12)
   - created_at  (timestamp)
 
-Password rules:
-  - Minimum 8 characters
-  - Stored as bcrypt hash (cost factor 12)
-  - Plain-text password never persisted
+Login endpoint  POST /auth/login
+  Request:   { "email": "...", "password": "..." }
+  Response:  { "token": "<jwt>", "expires_at": "<iso8601>" }
+  Errors:    401 on bad credentials, 422 on missing fields
+
+Token format: JWT, signed with HS256, payload { sub, iat, exp }
