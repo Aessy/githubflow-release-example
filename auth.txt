@@ -11,7 +11,12 @@ Endpoints:
 Rate limiting:
   - Login attempts capped at 10 per IP per minute
   - Excess requests receive 429 Too Many Requests
-  - Counter resets on successful login
+
+HOTFIX (v1.0.0.1):
+  Token expiry was incorrectly calculated using server local time instead
+  of UTC. Tokens were effectively non-expiring on servers not in UTC.
+  Fix: all exp/iat claims now use UTC epoch seconds (time.time()).
+  Affected endpoint: POST /auth/login, POST /auth/refresh
 
 Error codes:
   400  malformed request body
