@@ -1,12 +1,18 @@
 Webhooks
 ========
-[WIP] Outbound webhook configuration.
-
-Webhooks allow external systems to receive Taskr events in real time.
-
 Webhook model:
-  - id          (UUID)
-  - owner_id    (UUID)
-  - url         (string, https only)
-  - events      (array of event names to subscribe to)
-  - created_at
+  - id, owner_id, url (https only), events[], secret, created_at, active (bool)
+
+Endpoints:
+  POST   /webhooks          Register a webhook
+  GET    /webhooks          List own webhooks
+  GET    /webhooks/:id      Get webhook details
+  PATCH  /webhooks/:id      Update url, events, active flag
+  DELETE /webhooks/:id      Remove webhook
+
+Request body (POST):
+  { "url": "https://...", "events": ["task.created", "task.updated"], "secret": "..." }
+
+Supported events:
+  task.created  task.updated  task.deleted
+  comment.created  reminder.triggered
