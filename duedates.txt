@@ -1,6 +1,10 @@
 Due Dates & Reminders
 =====================
-[WIP] Adding due date support to tasks.
+due_at field: ISO 8601 datetime, optional, nullable
 
-New field:
-  - due_at  (ISO 8601 datetime, optional, nullable)
+API changes:
+  - POST /tasks and PATCH /tasks/:id accept "due_at"
+  - GET /tasks supports:
+      ?overdue=true     tasks where due_at < now and status != done
+      ?due_before=<ts>  tasks due before the given timestamp
+      ?due_after=<ts>   tasks due after the given timestamp
