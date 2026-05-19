@@ -3,18 +3,7 @@ Webhooks
 Webhook model: id, owner_id, url (https), events[], secret, created_at, active
 
 CRUD: POST/GET/PATCH/DELETE /webhooks[/:id]
-
-Supported events: task.created, task.updated, task.deleted,
-                  comment.created, reminder.triggered
-
-Payload format:
-  {
-    "event":      "task.updated",
-    "timestamp":  "2024-06-01T10:00:00Z",
-    "data":       { ...full resource object... }
-  }
-
-Security:
-  - Each delivery includes header X-Taskr-Signature: sha256=<hmac>
-  - HMAC computed over raw body with the webhook secret
-  - Receivers should verify signature before processing
+Events: task.created/updated/deleted, comment.created, reminder.triggered
+Payload: { event, timestamp, data }  |  Signature: X-Taskr-Signature sha256 HMAC
+Delivery: 5s timeout, 3x retry with backoff; auto-deactivate on exhaustion
+Log: GET /webhooks/:id/deliveries  (last 50, 30-day retention)
