@@ -1,0 +1,8 @@
+Activity Feed
+=============
+[WIP] Per-user activity feed aggregating task and team events.
+
+Planned endpoint:
+  GET /users/me/activity
+  Returns a reverse-chronological list of events the caller was involved in:
+  tasks they own or are a team member of, comments they wrote or were mentioned in.
