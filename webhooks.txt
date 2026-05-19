@@ -1,0 +1,12 @@
+Webhooks
+========
+[WIP] Outbound webhook configuration.
+
+Webhooks allow external systems to receive Taskr events in real time.
+
+Webhook model:
+  - id          (UUID)
+  - owner_id    (UUID)
+  - url         (string, https only)
+  - events      (array of event names to subscribe to)
+  - created_at
