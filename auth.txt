@@ -1,9 +1,12 @@
 Authentication
 ==============
-[WIP] Scaffolding user model.
-
-User fields:
+User model:
   - id          (UUID, generated on creation)
-  - email       (string, unique)
-  - password    (string, will be hashed)
+  - email       (string, unique, validated)
+  - password    (bcrypt hash, min 8 chars enforced)
   - created_at  (timestamp)
+
+Password rules:
+  - Minimum 8 characters
+  - Stored as bcrypt hash (cost factor 12)
+  - Plain-text password never persisted
