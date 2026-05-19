@@ -8,7 +8,12 @@ Reminders:
   Delivery: webhook (3x retry) → fallback to in-app GET /users/me/reminders
 
 Recurring reminders:
-  - "recurrence" field accepts cron expression (max every 1h)
-    e.g. { "remind_at": "2024-06-01T09:00:00Z", "recurrence": "0 9 * * 1-5" }
+  - "recurrence" accepts a cron expression (max every 1h)
   - Recurrence stops when task moves to done or cancelled
   - Maximum 5 active reminders per task per user
+
+HOTFIX (v1.2.0.1):
+  Recurring reminders were not cancelled when a task was marked done or
+  cancelled — they continued firing indefinitely.
+  Fix: status-change handler now explicitly cancels all active recurring
+  reminders on the task. One-off reminders are unaffected.
