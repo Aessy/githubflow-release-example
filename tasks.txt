@@ -1,11 +1,12 @@
 Task Management
 ===============
-[WIP] Initial task model.
+Task model:
+  - id           (UUID, auto-generated)
+  - title        (string, required, 1–200 chars)
+  - description  (string, optional, max 2000 chars)
+  - status       (enum: open | in_progress | done | cancelled)
+  - owner_id     (UUID, set to authenticated user)
+  - created_at   (timestamp, auto-set)
+  - updated_at   (timestamp, updated on every write)
 
-Task fields:
-  - id          (UUID)
-  - title       (string)
-  - description (string)
-  - status      (string)
-  - owner_id    (UUID, ref to user)
-  - created_at  (timestamp)
+Validation errors return 422 with a field-level error map.
