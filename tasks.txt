@@ -1,0 +1,11 @@
+Task Management
+===============
+[WIP] Initial task model.
+
+Task fields:
+  - id          (UUID)
+  - title       (string)
+  - description (string)
+  - status      (string)
+  - owner_id    (UUID, ref to user)
+  - created_at  (timestamp)
