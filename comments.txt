@@ -1,10 +1,11 @@
 Task Comments
 =============
-[WIP] Adding comment threads to tasks.
+Comment model:
+  - id, task_id, author_id, body (1-5000 chars), created_at, updated_at
+  - deleted_at (soft-delete; body replaced with "[deleted]" on read)
 
-Comment model (initial):
-  - id          (UUID)
-  - task_id     (UUID, FK to tasks)
-  - author_id   (UUID, FK to users)
-  - body        (string)
-  - created_at  (timestamp)
+Endpoints:
+  POST   /tasks/:id/comments         Add comment (auth required, any user)
+  GET    /tasks/:id/comments         List comments (paginated, auth required)
+  PATCH  /tasks/:id/comments/:cid    Edit comment (author only, within 15 min)
+  DELETE /tasks/:id/comments/:cid    Soft-delete comment (author or admin)
