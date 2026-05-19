@@ -9,3 +9,5 @@ Features in this version:
   - Status lifecycle: open → in_progress → done / cancelled
 
 See auth.txt and tasks.txt for endpoint documentation.
+
+Version: 1.0.0.0
