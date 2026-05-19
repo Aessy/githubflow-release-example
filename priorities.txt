@@ -1,10 +1,13 @@
 Task Priorities
 ===============
-Priority field added to task model:
-  - priority  enum: critical | high | normal | low  (default: normal)
+Priority field: critical | high | normal | low  (default: normal)
 
-API changes:
-  - POST /tasks accepts optional "priority" field
-  - PATCH /tasks/:id accepts "priority" in update body
-  - GET /tasks supports ?priority=high filter (repeatable for multiple values)
-  - Task response object now includes "priority" field
+Sorting:
+  - sort=priority orders tasks critical→high→normal→low (desc) or reverse (asc)
+  - Priority sort can be combined with secondary sort: ?sort=priority&sort=created_at
+
+SLA targets (informational, not enforced by API):
+  critical  — respond within 1h, resolve within 4h
+  high      — respond within 4h, resolve within 24h
+  normal    — respond within 24h
+  low       — best effort
