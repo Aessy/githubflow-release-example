@@ -4,15 +4,14 @@ Comment model:
   - id, task_id, author_id, body (1-5000), created_at, updated_at, deleted_at
 
 Endpoints:
-  POST   /tasks/:id/comments
-  GET    /tasks/:id/comments         Paginated, sorted oldest-first
-  PATCH  /tasks/:id/comments/:cid    Editable within 15 min of posting
-  DELETE /tasks/:id/comments/:cid    Soft-delete (author or admin)
+  POST/GET  /tasks/:id/comments
+  PATCH/DELETE  /tasks/:id/comments/:cid
 
-Mentions:
-  - @username syntax in body triggers a notification to the mentioned user
-  - Mentions are resolved at write time; invalid usernames silently ignored
-  - Maximum 10 mentions per comment
+Mentions:  @username  →  notification, resolved at write time, max 10
+Markdown:  raw body + rendered_html in responses
 
-Markdown rendering:
-  - Body stored as raw text; clients receive both raw and rendered_html fields
+Reaction emoji:
+  POST   /tasks/:id/comments/:cid/reactions   { "emoji": "👍" }
+  DELETE /tasks/:id/comments/:cid/reactions/:emoji
+  - One reaction per emoji per user per comment
+  - GET comment response includes reactions: { "👍": 3, "🎉": 1, ... }
