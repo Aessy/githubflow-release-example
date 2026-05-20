@@ -1,0 +1,51 @@
+Why do we want to change?
+=========================
+Gitflow has a complex branching strucure, and is better suited for very large projects with
+many developers and few yearly releases. The history is very hard to understand by looking at the repository.
+The feature branch merge policy also makes the history more messy, and rebase should be preferred.
+
+We are a small team doing regularly releases, we should really consider a more agile way of using git.
+
+I think these articles exlains my reasoning pretty good:
+
+https://georgestocker.com/2020/03/04/please-stop-recommending-git-flow/
+https://www.endoflineblog.com/gitflow-considered-harmful
+https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow
+
+Development
+-----------
+- `main` is the trunk branch. All new changes target `main` instead of
+  `swp-develop`.
+- To sync a feature branch with the latest changes, rebase on top of `main`
+  rather than merging `main` into the feature branch. This keeps history linear
+  and easy to read.
+
+Example 1:
+git checkout main
+git pull main
+git checkout my-feaure-branch
+git rebase main
+
+Example 2:
+git checkout my-feature-branch
+git pull main --rebase
+
+- When a pull request is approved and ready to land, use rebase-merge (not a
+  regular merge commit).
+
+
+Releases
+--------
+- At the start of a release cycle, cut a protected release branch from the
+  current HEAD of `main` (e.g. `release/1.3.0.18.0`).
+- Bug fixes found during testing are pushed directly to the release branch.
+- When the testing period is over, the final version is tagged and released.
+- After release, the release branch is merged back into `main` so that all
+  fixes are carried forward.
+
+
+Patching releases
+-----------------
+- Patches are pushed to the relevant release branch, the new version is tagged,
+  and a new release is cut.
+- After patching, the release branch is merged back into `main`.
